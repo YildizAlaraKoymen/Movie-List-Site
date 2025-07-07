@@ -20,6 +20,7 @@ The user may view their own favorites if they click the Favorites link in the na
 The user may search for movies. The query will be processed and movies will be displayed once the user clicks submit or presses enter.
 
 **##Features**
+
 Browse movies with posters and titles
 
 Add to favorites
@@ -27,6 +28,7 @@ Add to favorites
 Search/filter by title
 
 **##Tech Stack**
+
 🧱 Frontend: HTML5, CSS, JavaScript
 
 ⚡ Framework: React / JSX
@@ -36,11 +38,13 @@ Search/filter by title
 🛠️ Build Tools: Vite
 
 **##Prerequisites**
+
 Node.js (v14+)
 
 npm or Yarn
 
 **#Usage**
+
 Browse through the list of available movies.
 
 Click “Heart” to favorite.
