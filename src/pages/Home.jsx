@@ -1,18 +1,47 @@
+import {useState, useEffect } from "react"
+import Movies from "../components/Movies"
+import "../css/Home.css"
+import { searchMovies, getTopRatedMovies } from "../services/api"
 
-import MovieCard from "../components/MovieCard"
-import {useState} from "react"
 function Home() {
 
 const [searchQuery, setSearchQuery] = useState('')
+const [movies, setMovies] = useState([])
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const movies = [
-    {id: 1, title: "aaaaaaa", release_date: 2020},
-    {id: 2, title: "bbbbbbb", release_date: 2021},
-    {id: 3, title: "ccccccc", release_date: 2022},
-    {id: 4, title: "ddddddd", release_date: 2023},
-    {id: 5, title: "eeeeeee", release_date: 2024}
-  ]
-  const handleSearch = () => {}
+  useEffect(() => {
+    const fetchMovies = async() => {
+      const data = await getTopRatedMovies()
+      setMovies(data)
+      setLoading(false)
+    }
+    fetchMovies()
+  }, [])
+
+  const handleSearch = async (e) => {
+    console.log("hello")
+    e.preventDefault()
+    if(!searchQuery.trim()) 
+      return
+    if(loading) 
+      return
+    setLoading(true)
+    try{
+      const searchResults = await searchMovies(searchQuery)
+      console.log(searchResults.length)
+      if(searchResults.length === 0)
+        setError(`No movie found for: ${searchQuery}`)
+      else
+        setError(null)
+      setMovies(searchResults)
+    } catch(e) {
+      console.log(e)
+      setError("Failed to search movies...")
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">
@@ -25,10 +54,19 @@ const [searchQuery, setSearchQuery] = useState('')
         ></input>
         <button type = "submit" className="search-button">Search</button>
       </form>
-      
-      <div className="movies-grid"></div>
-      {movies.map(movie => <MovieCard movie = {movie} key = {movie.id}></MovieCard>)}
-  </div>
+
+      {loading && <div className="loading">Loading...</div>}
+
+      {!loading && error && (
+        <div className="error-message">{error}</div>
+      )}
+
+      {!loading && !error &&(
+        <div className="movies-grid">
+          <Movies movies={movies} />
+        </div>
+      )}
+    </div>
   )
 }
 
