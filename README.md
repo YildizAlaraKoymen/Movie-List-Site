@@ -2,6 +2,7 @@
 **Top Rated Movies**
 
 **##Demo**
+**TEST**
 
 ![home page](https://github.com/YildizAlaraKoymen/Movie-List-Site/blob/main/demoPictures/HomePage.png)
 
